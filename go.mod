@@ -1,4 +1,4 @@
-module gin-helloworld
+module github.com/aitay721822/gin-redis-ratelimiter
 
 go 1.15
 
