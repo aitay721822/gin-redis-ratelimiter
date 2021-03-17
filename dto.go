@@ -3,7 +3,6 @@ package ginredisratelimiter
 import (
 	"context"
 	"github.com/go-redis/redis/v8"
-	"sync"
 	"time"
 )
 
@@ -18,7 +17,6 @@ type Limiter interface {
 }
 
 type RedisRateLimiter struct {
-	sync.Mutex
 	context			context.Context
 	scriptSHA1  	string
 	client 			*redis.Client
@@ -33,9 +31,6 @@ type TokenBucketRedisRateLimiter struct {
 }
 
 func (r *TokenBucketRedisRateLimiter) Take(request TokenBucketLuaRequest) *LimiterResponse {
-	r.Lock()
-	defer r.Unlock()
-
 	result, err := r.client.EvalSha(
 		r.context,
 		r.scriptSHA1,
